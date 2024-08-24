@@ -30,7 +30,10 @@ app.post('/add', async (req, res) => {
       res.status(500).json({ error: error.message }); // 500 Internal Server Error for general errors
     }
   });
-
+app.get('/getData', async (req, res) => {
+    let data = await mes.find();
+    res.send(data);
+})
   app.listen(5000, () => {
     console.log('Server is running on port 5000');
   });
