@@ -9,9 +9,6 @@ mongoose.connect(URI);
 const app = express();
 app.use(cors()); 
 app.use(bodyParser.json());
-app.get('/', async (req, res) => {
-    res.send("hi");
-});
 app.post('/add', async (req, res) => {
     try {
       const { title, message } = req.body;
