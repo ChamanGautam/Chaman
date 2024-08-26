@@ -5,7 +5,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Query  = require("./model/query")
 const URI=process.env.MONGO_URI;
-mongoose.connect(URI);
+mongoose.connect(URI,{
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 60000 // Increase timeout to 30 seconds
+});
 const app = express();
 app.use(cors()); 
 app.use(bodyParser.json());
