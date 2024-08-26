@@ -13,36 +13,19 @@ app.get("/", (req, res) => {
   res.json("hello");
 });
 
-app.post('/addQuery', async (req, res) => {
-  try {
-    const { title, message } = req.body;
-
-    // Check for required fields
-    if (!title || !message) {
-      return res.status(400).json({ error: 'Title and message are required' });
+app.post('/adding', async (req, res) => {
+    if (req.body.title && req.body.message) {
+        let data = new Query(req.body);
+        data = await data.save();
+        res.send({ Status: "Successfully send Message" });
+    } else {
+        res.send({ Required: "All Fields are Required" });
     }
-
-    // Create and save new data
-    const data = new Query({ title, message });
-    await data.save();
-
-    // Send response
-    res.status(201).json(data);
-  } catch (error) {
-    console.error("Error:", error.message);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-app.get('/getQuery', async (req, res) => {
-  try {
-    const data = await Query.find();
-    res.json(data);
-  } catch (error) {
-    console.error("Error:", error.message);
-    res.status(500).json({ error: error.message });
-  }
-});
+})
+app.get('/looking', async (req, res) => {
+    let data = await Quer.find();
+    res.send(data);
+})
 
 // Start server
 const PORT = process.env.PORT || 5000;
