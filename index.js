@@ -23,7 +23,7 @@ app.post('/adding', async (req, res) => {
     }
 })
 app.get('/looking', async (req, res) => {
-    let data = await Quer.find();
+    let data = await Query.find();
     res.send(data);
 })
 
