@@ -3,16 +3,29 @@ const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Query  = require("./model/query")
-const URI=process.env.MONGO_URI;
-mongoose.connect(URI,{
+const Query = require("./model/query");
+
+const URI = process.env.MONGO_URI;
+
+// Connect to MongoDB
+mongoose.connect(URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 60000 // Increase timeout to 30 seconds
-});
+  serverSelectionTimeoutMS: 60000 // 60 seconds timeout
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    process.exit(1); // Exit process with failure
+  });
+
 const app = express();
-app.use(cors()); 
+
+// Middleware
+app.use(cors());
 app.use(bodyParser.json());
+
+// Routes
 app.get("/", (req, res) => {
   res.json("hello");
 });
