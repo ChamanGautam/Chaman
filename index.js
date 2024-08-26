@@ -3,29 +3,12 @@ const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Query = require("./model/query");
-
-const URI = process.env.MONGO_URI;
-
-// Connect to MongoDB
-mongoose.connect(URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 60000 // 60 seconds timeout
-})
-  .then(() => console.log('MongoDB connected'))
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit process with failure
-  });
-
+const Query  = require("./model/query")
+const URI=process.env.MONGO_URI;
+mongoose.connect(URI);
 const app = express();
-
-// Middleware
-app.use(cors());
+app.use(cors()); 
 app.use(bodyParser.json());
-
-// Routes
 app.get("/", (req, res) => {
   res.json("hello");
 });
@@ -62,7 +45,7 @@ app.get('/getQuery', async (req, res) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 4500;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
