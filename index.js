@@ -3,7 +3,7 @@ const cors = require('cors');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Query  = require("./model/query")
+const mes  = require("./temp")
 const URI=process.env.MONGO_URI;
 mongoose.connect(URI);
 const app = express();
@@ -15,7 +15,7 @@ app.get("/", (req, res) => {
 
 app.post('/adding', async (req, res) => {
     if (req.body.title && req.body.message) {
-        let data = new Query(req.body);
+        let data = new mes(req.body);
         data = await data.save();
         res.send({ Status: "Successfully send Message" });
     } else {
@@ -23,7 +23,7 @@ app.post('/adding', async (req, res) => {
     }
 })
 app.get('/looking', async (req, res) => {
-    let data = await Query.find();
+    let data = await mes.find();
     res.send(data);
 })
 
