@@ -1,34 +1,30 @@
 require("dotenv").config();
-const cors = require('cors');
-const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const mes  = require("./temp")
 const URI=process.env.MONGO_URI;
 mongoose.connect(URI);
+const ch = require('./temp');
+const express = require('express');
 const app = express();
-app.use(cors()); 
-app.use(bodyParser.json());
-app.get("/", (req, res) => {
-  res.json("hello");
+app.use(express.json());
+const cors = require('cors');
+app.use(cors());
+app.get("/", (req,res) =>{
+    res.send("helo");
 });
 
-app.post('/adding', async (req, res) => {
-    if (req.body.title && req.body.message) {
-        let data = new mes(req.body);
+app.post('/addmessage', async (req, res) => {
+    if (req.body.title && req.body.message ) {
+        let data = new ch(req.body);
         data = await data.save();
-        res.send({ Status: "Successfully send Message" });
+        res.send({ Status: "Message Send Successfully" });
     } else {
-        res.send({ Required: "All Fields are Required" });
+
     }
-})
-app.get('/looking', async (req, res) => {
-    let data = await mes.find();
+
+});
+app.get('/getmessage', async (req, res) => {
+    let data = await ch.find();
     res.send(data);
 })
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.listen(4500);
